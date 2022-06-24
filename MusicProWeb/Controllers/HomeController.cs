@@ -19,9 +19,15 @@ namespace MusicProWeb.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        //public IActionResult Index()
         {
-            return View();
+            var httpClient = new HttpClient();
+            var json = await httpClient.GetStringAsync("https://localhost:44392/api/producto");
+          List<Producto> listaproductos = JsonConvert.DeserializeObject<List<Producto>>(json);
+            
+            return View(listaproductos);
+            //return View();
         }
 
         public IActionResult Privacy()
