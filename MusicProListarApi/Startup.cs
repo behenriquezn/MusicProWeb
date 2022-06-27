@@ -8,11 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using MusicProWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using MusicProListarApi.Models;
 
 namespace MusicProListarApi
 {
@@ -28,8 +30,10 @@ namespace MusicProListarApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+               x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
             services.AddDbContext<ModelContext>(options => options.UseOracle(Configuration.GetConnectionString("DEV")));
             services.AddSwaggerGen(c =>
             {

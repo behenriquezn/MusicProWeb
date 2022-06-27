@@ -19,5 +19,6 @@ namespace MusicProListarApi.Models
 
         public virtual Marca Marca { get; set; }
         public virtual SubCat SubCat { get; set; }
+        public virtual Categoria Categoria { get; set; }
     }
 }

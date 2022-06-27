@@ -26,8 +26,7 @@ namespace MusicProWeb.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseOracle("DEV");
+              optionsBuilder.UseOracle("DEV");
             }
         }
 
@@ -80,7 +79,7 @@ namespace MusicProWeb.Models
 
             modelBuilder.Entity<Producto>(entity =>
             {
-                entity.HasKey(e => new { e.IdProd, e.SubCatId, e.MarcaId })
+                entity.HasKey(e => e.IdProd)
                     .HasName("PRODUCTO_PK");
 
                 entity.ToTable("PRODUCTO");
@@ -88,14 +87,6 @@ namespace MusicProWeb.Models
                 entity.Property(e => e.IdProd)
                     .HasColumnType("NUMBER(30)")
                     .HasColumnName("ID_PROD");
-
-                entity.Property(e => e.SubCatId)
-                    .HasColumnType("NUMBER(30)")
-                    .HasColumnName("SUB_CAT_ID");
-
-                entity.Property(e => e.MarcaId)
-                    .HasColumnType("NUMBER(30)")
-                    .HasColumnName("MARCA_ID");
 
                 entity.Property(e => e.CantidadStock)
                     .HasColumnType("NUMBER(20)")
@@ -106,9 +97,13 @@ namespace MusicProWeb.Models
                     .HasColumnName("CATEGORIA_ID");
 
                 entity.Property(e => e.Imagen)
-                    .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("IMAGEN");
+
+                entity.Property(e => e.MarcaId)
+                    .HasColumnType("NUMBER(30)")
+                    .HasColumnName("MARCA_ID");
 
                 entity.Property(e => e.Modelo)
                     .IsRequired()
@@ -126,22 +121,20 @@ namespace MusicProWeb.Models
                     .HasColumnType("NUMBER(20)")
                     .HasColumnName("PRECIO");
 
+                entity.Property(e => e.SubCatId)
+                    .HasColumnType("NUMBER(30)")
+                    .HasColumnName("SUB_CAT_ID");
+
                 entity.HasOne(d => d.Marca)
                     .WithMany(p => p.Productos)
                     .HasForeignKey(d => d.MarcaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("PRODUCTO_MARCA_FK");
-
-                entity.HasOne(d => d.SubCat)
-                    .WithMany(p => p.Productos)
-                    .HasForeignKey(d => new { d.SubCatId, d.CategoriaId })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("PRODUCTO_SUB_CAT_FK");
             });
 
             modelBuilder.Entity<SubCat>(entity =>
             {
-                entity.HasKey(e => new { e.IdSub, e.CategoriaId })
+                entity.HasKey(e => e.IdSub)
                     .HasName("SUB_CAT_PK");
 
                 entity.ToTable("SUB_CAT");

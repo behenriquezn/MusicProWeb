@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MusicProWeb.Models;
+using MusicProListarApi.Models;
 
 namespace MusicProListarApi.Controllers
 {
@@ -24,7 +24,9 @@ namespace MusicProListarApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
         {
-            return await _context.Productos.ToListAsync();
+            var modelContext = _context.Productos.Include(p => p.Marca).Include(p => p.SubCat).Include(p => p.Categoria);
+            return await modelContext.ToListAsync();
+           // return await _context.Productos.ToListAsync();
         }
 
         // GET: api/Producto/5

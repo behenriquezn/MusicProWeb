@@ -87,7 +87,7 @@ namespace MusicProWeb.Controllers
             }
             ViewData["MarcaId"] = new SelectList(_context.Marcas, "IdMarca", "Nombre", producto.MarcaId);
             ViewData["SubCatId"] = new SelectList(_context.SubCats, "IdSub", "Nombre", producto.SubCatId);
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "IdCategoria", "Categorias", producto.CategoriaId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "IdCategoria", "Categorias", producto);
 
             return View(producto);
         }

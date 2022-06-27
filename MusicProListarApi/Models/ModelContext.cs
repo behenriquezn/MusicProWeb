@@ -26,7 +26,7 @@ namespace MusicProListarApi.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseOracle("DEV");
+              optionsBuilder.UseOracle("DEV");
             }
         }
 
@@ -79,7 +79,7 @@ namespace MusicProListarApi.Models
 
             modelBuilder.Entity<Producto>(entity =>
             {
-                entity.HasKey(e => new { e.IdProd, e.SubCatId, e.MarcaId })
+                entity.HasKey(e => e.IdProd)
                     .HasName("PRODUCTO_PK");
 
                 entity.ToTable("PRODUCTO");
@@ -87,14 +87,6 @@ namespace MusicProListarApi.Models
                 entity.Property(e => e.IdProd)
                     .HasColumnType("NUMBER(30)")
                     .HasColumnName("ID_PROD");
-
-                entity.Property(e => e.SubCatId)
-                    .HasColumnType("NUMBER(30)")
-                    .HasColumnName("SUB_CAT_ID");
-
-                entity.Property(e => e.MarcaId)
-                    .HasColumnType("NUMBER(30)")
-                    .HasColumnName("MARCA_ID");
 
                 entity.Property(e => e.CantidadStock)
                     .HasColumnType("NUMBER(20)")
@@ -108,6 +100,10 @@ namespace MusicProListarApi.Models
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("IMAGEN");
+
+                entity.Property(e => e.MarcaId)
+                    .HasColumnType("NUMBER(30)")
+                    .HasColumnName("MARCA_ID");
 
                 entity.Property(e => e.Modelo)
                     .IsRequired()
@@ -125,22 +121,20 @@ namespace MusicProListarApi.Models
                     .HasColumnType("NUMBER(20)")
                     .HasColumnName("PRECIO");
 
+                entity.Property(e => e.SubCatId)
+                    .HasColumnType("NUMBER(30)")
+                    .HasColumnName("SUB_CAT_ID");
+
                 entity.HasOne(d => d.Marca)
                     .WithMany(p => p.Productos)
                     .HasForeignKey(d => d.MarcaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("PRODUCTO_MARCA_FK");
-
-                entity.HasOne(d => d.SubCat)
-                    .WithMany(p => p.Productos)
-                    .HasForeignKey(d => new { d.SubCatId, d.CategoriaId })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("PRODUCTO_SUB_CAT_FK");
             });
 
             modelBuilder.Entity<SubCat>(entity =>
             {
-                entity.HasKey(e => new { e.IdSub, e.CategoriaId })
+                entity.HasKey(e => e.IdSub)
                     .HasName("SUB_CAT_PK");
 
                 entity.ToTable("SUB_CAT");
