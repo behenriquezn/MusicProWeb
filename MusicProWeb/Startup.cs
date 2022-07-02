@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using MusicProWeb.Data;
 
 namespace MusicProWeb
 {
@@ -27,19 +29,25 @@ namespace MusicProWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddJsonOptions(x =>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            services.AddMemoryCache();
 
             services.AddHttpContextAccessor();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
+                //options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-
-
+            services.AddRazorPages();
             services.AddControllersWithViews();
             services.AddDbContext<ModelContext>(options => options.UseOracle(Configuration.GetConnectionString("DEV")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseOracle(Configuration.GetConnectionString("DEV")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +67,7 @@ namespace MusicProWeb
             app.UseStaticFiles();           
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -66,6 +75,7 @@ namespace MusicProWeb
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

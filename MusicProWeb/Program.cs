@@ -1,14 +1,20 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MusicProWeb.Data;
+using Microsoft.AspNetCore.Identity;
+using MusicProWeb.Models;
+using Microsoft.AspNetCore;
 
 namespace MusicProWeb
 {
+
     public class Program
     {
         public static void Main(string[] args)

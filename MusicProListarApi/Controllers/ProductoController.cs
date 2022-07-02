@@ -22,11 +22,33 @@ namespace MusicProListarApi.Controllers
 
         // GET: api/Producto
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
+        public async Task<ActionResult <IEnumerable<Producto>>> GetProductos()
         {
+        //    var listProd = (from p in _context.Productos
+        //                    join pm in _context.Marcas on p.MarcaId equals pm.IdMarca
+        //                    join psc in _context.SubCats on p.SubCatId equals psc.IdSub
+        //                    join pc in _context.Categoria on p.CategoriaId equals pc.IdCategoria
+        //                    select new ProductoInfo()
+        //                    {
+        //                        IdProd = p.IdProd,
+        //                        Nombre = p.Nombre,
+        //                        Modelo = p.Modelo,
+        //                        Precio = p.Precio,
+        //                        CantidadStock = p.CantidadStock,
+        //                        SubCatId = p.SubCatId,
+        //                        SubCat = p.SubCat,
+        //                        MarcaId = p.MarcaId,
+        //                        Marca = pm.Nombre,
+        //                        CategoriaId = p.CategoriaId,
+        //                        Categoria = pc.Categorias,
+        //                        Imagen = p.Imagen
+                                
+        //                    }
+        //                    );
+        //    return await listProd.ToListAsync();
             var modelContext = _context.Productos.Include(p => p.Marca).Include(p => p.SubCat).Include(p => p.Categoria);
             return await modelContext.ToListAsync();
-           // return await _context.Productos.ToListAsync();
+            // return await _context.Productos.ToListAsync();
         }
 
         // GET: api/Producto/5

@@ -3,64 +3,76 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>@ViewData["Title"]</h1>
-@*<ol class="breadcrumb float-sm-right">
-    <li class="breadcrumb-item"><a href="#">Listas</a></li>
-    <li class="breadcrumb-item active">Productos</li>
-</ol>
+<h1>Lista de Productos</h1>
 
-<div class="card">
-    <h5 class="card-header">
-        <i class="bi bi-mic me-1">Lista de productos </i>
-    </h5>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-12">
-                <button type="button" class="btn btn-success">Agregar Producto</button>
-
-            </div>
-
-        </div>*@
-
-        <p>
-            <a asp-action="Create">Agregar nuevo producto</a>
-        </p>
-        <table id="tabla" class="display cell-border" style="width: 100%">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nombre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Modelo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Precio)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CantidadStock)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Imagen)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Marca)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SubCat)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Categoria)
-                </th>
-                <th></th>
-            </tr>
-        </table>
-
-    </div>
-</div>
-
-
+<p>
+    <a asp-action="Create">Agregar nuevo producto</a> <button></button>
+</p>
 
 <table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad De Stock</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Sub Categoria</th>
+            <th scope="col">Categoria</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadStock)
+            </td>
+            <td>
+                <img src="@("~/image/"+item.Imagen)" asp-append-version="true" style="width: 50px; height: 50px;" />
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCat.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria.Categorias)
+            </td>
+            <td>
+                @Html.ActionLink("Editar Producto", "Edit", new { id = item.IdProd }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.IdProd }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.IdProd })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+@*<table class="table">
         <thead>
             <tr>
                 <th>
@@ -128,7 +140,7 @@
                 </tr>
             }
         </tbody>
-    </table>
+    </table>*@
 
 @*section scripts{
        <script>

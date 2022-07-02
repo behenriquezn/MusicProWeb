@@ -11,9 +11,9 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Text.Json.Serialization;
+//using System.Text.Json.Serialization;
 using MusicProListarApi.Models;
 
 namespace MusicProListarApi
@@ -31,9 +31,12 @@ namespace MusicProListarApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddControllers().AddJsonOptions(x =>
-               x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-
+            //services.AddControllers().AddJsonOptions(x =>
+            //   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddDbContext<ModelContext>(options => options.UseOracle(Configuration.GetConnectionString("DEV")));
             services.AddSwaggerGen(c =>
             {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -10,6 +11,8 @@ namespace MusicProWeb.Models
 {
     public partial class Producto
     {
+
+        [Key]
         public decimal IdProd { get; set; }
         public string Nombre { get; set; }
         public string Modelo { get; set; }
@@ -26,5 +29,6 @@ namespace MusicProWeb.Models
         public virtual Marca Marca { get; set; }
         public virtual SubCat SubCat { get; set; }
         public virtual Categoria Categoria { get; set; }
+
     }
 }

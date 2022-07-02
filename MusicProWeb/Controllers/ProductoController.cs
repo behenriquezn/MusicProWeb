@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using MusicProWeb.Models;
 
 namespace MusicProWeb.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class ProductoController : Controller
     {
         private readonly ModelContext _context;
@@ -27,6 +29,7 @@ namespace MusicProWeb.Controllers
         {
             var modelContext = _context.Productos.Include(p => p.Marca).Include(p => p.SubCat).Include(p => p.Categoria);
             return View(await modelContext.ToListAsync());
+
         }
 
         // GET: Producto/Details/5

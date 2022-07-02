@@ -1,19 +1,6 @@
 ﻿@using System.Net.Http
-@using MusicProWeb.Utilidades
+@*@using MusicProWeb.Utilidades*@
 @using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor HttpContextAccessor
-
-@{
-    //var userRole = HttpContextAccessor.HttpContext.Session.GetString("roleName");
-    int count = 0;
-    List<Producto> productos = HttpContextAccessor.HttpContext.Session.Get<List<Producto>>("productos");
-    if (productos == null)
-    {
-        productos = new List<Producto>();
-    }
-    count = productos.Count();
-
-}
 
 
 
@@ -56,19 +43,15 @@
                         </ul>
                     </li>
                 </ul>
+                <partial name="_LoginPartial" />
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <button class="btn btn-outline-dark" type="submit" asp-controller="Home" asp-action="Carrito">
                         <i class="bi-cart-fill me-1"></i>
-                        Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">(@count)</span>
+                        Carrito
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">@*(@count)*@</span>
                     </button>
                 </form>
-                @*<li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
-                        <i class="bi-cart-fill me-1"></i>
-                        (@count)
-                    </a>
-                </li>*@
+
             </div>
         </div>
     </nav>

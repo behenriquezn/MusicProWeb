@@ -21,6 +21,7 @@ namespace MusicProWeb.Models
         public virtual DbSet<Marca> Marcas { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
         public virtual DbSet<SubCat> SubCats { get; set; }
+        public DbSet<Item> CarritoProductos{ get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
