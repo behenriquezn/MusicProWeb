@@ -59,106 +59,26 @@ namespace MusicProWeb.Controllers
         }
 
         //GET Productos detalle
-        public async Task<IActionResult> Detalles(decimal? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Detalles(decimal? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var producto = await _context.Productos
-                .Include(p => p.Marca)
-                .Include(p => p.SubCat)
-                .Include(p => p.Categoria)
-                .FirstOrDefaultAsync(m => m.IdProd == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
+        //    var producto = await _context.Productos
+        //        .Include(p => p.Marca)
+        //        .Include(p => p.SubCat)
+        //        .Include(p => p.Categoria)
+        //        .FirstOrDefaultAsync(m => m.IdProd == id);
+        //    if (producto == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(producto);
-        }
-//        //POST Productos detalle
-//        [HttpPost]
-//        [ActionName("Detalles")]
-//        public async Task<IActionResult> ProductoDetalles(decimal? id)
-//        {
-//            List<Producto> productos = new List<Producto>();
-//            if (id == null)
-//            {
-//                return NotFound();
-//            }
+        //    return View(producto);
+        //}
 
-//            var producto = await _context.Productos
-//                //.Include(p => p.Marca)
-//                //.Include(p => p.SubCat)
-//                //.Include(p => p.Categoria)
-//                .FirstOrDefaultAsync(m => m.IdProd == id);
-//            if (producto == null)
-//            {
-//                return NotFound();
-//            }
-//            productos = HttpContext.Session.Get<List<Producto>>("productos");
-//            if (productos == null)
-//            {
-//                productos = new List<Producto>();
-//            }
-//            productos.Add(producto);
-//            HttpContext.Session.Set("productos", productos);
-
-//            return RedirectToAction(nameof(Index));
-//        }
-//        //GET Remove action methdo
-//        [ActionName("Remover")]
-//        public IActionResult RemoverCarrito(int? id)
-//        {
-//            List<Producto> productos = HttpContext.Session.Get<List<Producto>>("productos");
-//            if (productos != null)
-//            {
-//                var producto = productos
-//                   //.Include(p => p.Marca)
-//                   //.Include(p => p.SubCat)
-//                   //.Include(p => p.Categoria)
-//                   .FirstOrDefault(m => m.IdProd == id);
-//                if (producto != null)
-//                {
-//                    productos.Remove(producto);
-//                    HttpContext.Session.Set("productos", productos);
-//                }
-//            }
-//            return RedirectToAction(nameof(Index));
-//        }
-
-//        [HttpPost]
-
-//        public IActionResult Remover(int? id)
-//        {
-//            List<Producto> productos = HttpContext.Session.Get<List<Producto>>("productos");
-//            if (productos != null)
-//            {
-//                var producto =  productos
-//                   //.Include(p => p.Marca)
-//                   //.Include(p => p.SubCat)
-//                   //.Include(p => p.Categoria)
-//                   .FirstOrDefault(m => m.IdProd == id);
-//                if (producto != null)
-//                {
-//                    productos.Remove(producto);
-//                    HttpContext.Session.Set("productos", productos);
-//                }
-//            }
-//            return RedirectToAction(nameof(Index));
-//        }
-//        //GET DEL CARRITO DE COMPRAS
-//        public IActionResult Carrito()
-//        {
-//            List<Producto> productos = HttpContext.Session.Get<List<Producto>>("productos");
-//            if (productos == null)
-//            {
-//                productos = new List<Producto>();
-//            }
-//            return View(productos);
-//        }
 
     }
 }

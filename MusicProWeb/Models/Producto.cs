@@ -26,6 +26,8 @@ namespace MusicProWeb.Models
         [NotMapped]
         [DisplayName("Upload File")]
         public IFormFile ImageFile { get; set; }
+
+        public virtual ICollection<CarritoProducto> CarritoProductos { get; set; } = new HashSet<CarritoProducto>();
         public virtual Marca Marca { get; set; }
         public virtual SubCat SubCat { get; set; }
         public virtual Categoria Categoria { get; set; }

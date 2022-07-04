@@ -1,5 +1,5 @@
 ﻿@using System.Net.Http
-@*@using MusicProWeb.Utilidades*@
+@using MusicProWeb.Componentes
 @using Microsoft.AspNetCore.Http
 
 
@@ -42,15 +42,12 @@
                             <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
                         </ul>
                     </li>
+                    <ul class="nav navbar-nav">
+                        @await Component.InvokeAsync("ResumenCarrito")
+                    </ul>
                 </ul>
                 <partial name="_LoginPartial" />
-                <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit" asp-controller="Home" asp-action="Carrito">
-                        <i class="bi-cart-fill me-1"></i>
-                        Carrito
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">@*(@count)*@</span>
-                    </button>
-                </form>
+
 
             </div>
         </div>

@@ -21,7 +21,7 @@ namespace MusicProWeb.Models
         public virtual DbSet<Marca> Marcas { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
         public virtual DbSet<SubCat> SubCats { get; set; }
-        public DbSet<Item> CarritoProductos{ get; set; }
+        public DbSet<CarritoProducto> CarritoProductos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,6 +36,29 @@ namespace MusicProWeb.Models
             modelBuilder.HasDefaultSchema("MUSICPRODB")
                 .HasAnnotation("Relational:Collation", "USING_NLS_COMP");
 
+            modelBuilder.Entity<CarritoProducto>(entity =>
+            {
+                entity.ToTable("CARRITOPRODUCTO");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("NUMBER(38)")
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Cantidad)
+                    .HasColumnType("NUMBER(38)")
+                    .HasColumnName("CANTIDAD");
+
+                entity.Property(e => e.CarritoId)
+                    .IsRequired()
+                    .HasMaxLength(2000)
+                    .IsUnicode(false)
+                    .HasColumnName("CARRITOID");
+
+                entity.Property(e => e.ProductoIdProd)
+                    .HasColumnType("NUMBER(30)")
+                    .HasColumnName("PRODUCTO_ID_PROD");
+
+            });
             modelBuilder.Entity<Categoria>(entity =>
             {
                 entity.HasKey(e => e.IdCategoria)

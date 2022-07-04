@@ -14,6 +14,8 @@ using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using MusicProWeb.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace MusicProWeb
 {
@@ -33,6 +35,8 @@ namespace MusicProWeb
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => Carrito.GetCarrito(sp));
             services.AddMemoryCache();
 
             services.AddHttpContextAccessor();
@@ -42,6 +46,7 @@ namespace MusicProWeb
                 //options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
             services.AddRazorPages();
             services.AddControllersWithViews();
             services.AddDbContext<ModelContext>(options => options.UseOracle(Configuration.GetConnectionString("DEV")));

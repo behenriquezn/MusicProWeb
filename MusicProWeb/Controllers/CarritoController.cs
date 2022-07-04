@@ -1,83 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicProWeb.Models;
+using MusicProWeb.ViewModels;
 using System;
-using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MusicProWeb.Helpers;
 
 namespace MusicProWeb.Controllers
 {
     public class CarritoController : Controller
     {
-
-        private ModelContext _context = new ModelContext();
-
-        public CarritoController(ModelContext context)
+        private readonly ModelContext _context;
+        private readonly Carrito _carrito;
+    public CarritoController(ModelContext modelContext, Carrito carrito)
         {
-            _context = context;
-
+            _context = modelContext;
+            _carrito = carrito;
         }
-        [Route("")]
-        [Route("index")]
-        public ActionResult Index()
+        public ViewResult Index()
         {
-            List<Item> carrito = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session,
-                "carrito");
-            ViewBag.carrito = carrito;
-            ViewBag.countItems = carrito.Count;
-            ViewBag.Total = carrito.Sum(it => it.Producto.Precio * it.Cantidad);
-            return View();
-        }
-        [Route("comprar/{id}")]
-        public IActionResult Comprar(decimal id)
-        {
-            var producto = _context.Productos.Find(id);
-            if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "carrito") == null)
+            var productos = _carrito.GetCarritoProductos();
+            _carrito.CarritoProductos = productos;
+
+            var CarritoVM = new CarritoViewModel
             {
-                List<Item> carrito = new List<Item>();
-                carrito.Add(new Item
-                {
-                    Producto = producto,
-                    Cantidad = 1
-                });
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "carrito", carrito);
-            }
-            else
-            {
-                List<Item> carrito = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session,
-                    "carrito");
-                int index = exists(id, carrito);
-                if (index == -1)
-                {
-                    carrito.Add(new Item
-                    {
-                        Producto = producto,
-                        Cantidad = 1
-                    });
-                }
-                else
-                {
-                    int newCantidad = carrito[index].Cantidad++;
-                    carrito[index].Cantidad = newCantidad;
-                }
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "carrito", carrito);
-            }
-            return RedirectToAction("Index", "Carrito");
-
+                Carrito = _carrito,
+                CarritoTotal = _carrito.GetCarritoTotal()
+            };
+            return View(CarritoVM);
         }
-        private int exists(decimal id, List<Item> carrito)
+
+        public RedirectToActionResult AgregarACarrito(int idprod)
         {
-            for (var i = 0; i < carrito.Count; i++)
+            var selectedProducto = _context.Productos.FirstOrDefault(p => p.IdProd == idprod);
+            if (selectedProducto !=null)
             {
-                if (carrito[i].Producto.IdProd == id)
-                {
-                    return i;
-                }
+                _carrito.AgregarCarrito(selectedProducto, 1);
+
             }
-            return -1;
+            return RedirectToAction("Index");
         }
 
+        public RedirectToActionResult RemoverDeCarrito(int idprod)
+        {
+            var selectedProducto = _context.Productos.FirstOrDefault(p => p.IdProd == idprod);
+            if (selectedProducto !=null)
+            {
+                _carrito.RemoverDelCarrito(selectedProducto);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
