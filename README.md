@@ -1,6 +1,6 @@
 # MusicProWeb
 
-Proyecto En Desarrollo En C# ASP.NET 5 con Razor Web Pages Bajo el nombre de Music Pro Web
+Proyecto En Desarrollo En C# ASP.NET 5 con Razor Web Pages Bajo el Modelo Vista Controlador Y con la patente de Music Pro
 
 Contendios
 
