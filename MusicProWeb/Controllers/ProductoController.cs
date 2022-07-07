@@ -12,7 +12,7 @@ using MusicProWeb.Models;
 
 namespace MusicProWeb.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    //[Authorize(Roles ="Admin")]
     public class ProductoController : Controller
     {
         private readonly ModelContext _context;

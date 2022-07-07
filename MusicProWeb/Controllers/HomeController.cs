@@ -22,28 +22,23 @@ namespace MusicProWeb.Controllers
             _logger = logger;
             _context = context;
         }
-        //public async Task<IActionResult> Index()
-        //public IActionResult Index()
-        //{
-        //    //var httpClient = new HttpClient();
-        //    //var json = await httpClient.GetStringAsync("https://localhost:44389/api/producto");
-        //    //List<Producto> listaproductos = JsonConvert.DeserializeObject<List<Producto>>(json);
+       // public async Task<IActionResult> ListaNombreProd()
+        public async Task<IActionResult> Privacy()
+        {
+            var httpClient = new HttpClient();
+            var json = await httpClient.GetStringAsync("https://localhost:44389/api/producto");
+            List<Producto> listaproductos = JsonConvert.DeserializeObject<List<Producto>>(json);
 
-        //    //return View(listaproductos);
+            return View(listaproductos);
 
-        //    return View(_context.Productos.);
-        //}
+           // return View(_context.Productos.);
+        }
 
         public async Task<IActionResult> Index()
         {
             var modelContext = _context.Productos.Include(p => p.Marca).Include(p => p.SubCat).Include(p => p.Categoria);
             return View(await modelContext.ToListAsync());
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
 
         //public JsonResult ListarProductos() {
 
